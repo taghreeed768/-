@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>لعبتي</title>
+
+<style>
+    body {
+        text-align: center;
+        font-family: Arial;
+        background: #111;
+        color: white;
+    }
+
+    #gameArea {
+        width: 400px;
+        height: 400px;
+        background: #222;
+        margin: 20px auto;
+        position: relative;
+        border: 2px solid white;
+    }
+
+    #box {
+        width: 50px;
+        height: 50px;
+        background: red;
+        position: absolute;
+        display: none;
+        cursor: pointer;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>🎮 اضرب المربع</h1>
+<p>Score: <span id="score">0</span></p>
+<p>Time: <span id="time">30</span></p>
+
+<button onclick="startGame()">ابدأ اللعبة</button>
+
+<div id="gameArea">
+    <div id="box"></div>
+</div>
+
+<script>
+let score = 0;
+let time = 30;
+let gameInterval;
+let timer;
+
+const box = document.getElementById("box");
+const scoreText = document.getElementById("score");
+const timeText = document.getElementById("time");
+
+function startGame() {
+    score = 0;
+    time = 30;
+    scoreText.innerText = score;
+    timeText.innerText = time;
+
+    box.style.display = "block";
+
+    moveBox();
+
+    gameInterval = setInterval(moveBox, 800);
+
+    timer = setInterval(() => {
+        time--;
+        timeText.innerText = time;
+
+        if (time <= 0) {
+            clearInterval(gameInterval);
+            clearInterval(timer);
+            box.style.display = "none";
+            alert("خلص الوقت! نتيجتك: " + score);
+        }
+    }, 1000);
+}
+
+function moveBox() {
+    let x = Math.random() * 350;
+    let y = Math.random() * 350;
+
+    box.style.left = x + "px";
+    box.style.top = y + "px";
+}
+
+box.onclick = function() {
+    score++;
+    scoreText.innerText = score;
+    moveBox();
+};
+</script>
+
+</body>
+</html>
